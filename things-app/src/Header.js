@@ -1,18 +1,11 @@
 import React from 'react';
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      welcome: 'Welcome to Odometer',
-    };
-  }
+//obj.key is fine
+//obj.key-with-hyphen not fine
 
-  render() {
-    return (
-      <h1>{this.state.welcome}</h1>
-    )
-  }
-}
-
-export default Header
+export default props => (
+  <>
+    <h1>Welcome</h1>
+    <h2>{props['thing-count']}</h2>
+  </>
+)

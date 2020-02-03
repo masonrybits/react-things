@@ -1,48 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ThingList extends Component {
+class ThingForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      thing: ''
+      formThing: ''
     }
-    this.thingChange = this.thingChange.bind(this)
-    this.thingSubmit = this.thingSubmit.bind(this)
+    this.changeHandler = this.changeHandler.bind(this)
+    this.submitHandler = this.submitHandler.bind(this)
   }
 
-  thingChange(event) {
-    const value = event.target.value
-    this.setState({
-      thing: value
-    });
-  }
-
-  thingSubmit(event) {
+  submitHandler(event) {
     event.preventDefault()
-
-    this.props.submit(event)
+    this.props.onCreated({name:this.state.formThing})
     this.setState({
-      thing: ''
+      formThing: ''
     })
   }
 
-  thingList(props) {
-    return <li>{props.thing.name}</li>
+  changeHandler(event) {
+    this.setState({
+      formThing: event.target.value
+    })
   }
 
   render() {
     return (
       <>
         <ul>
-          {this.props.list.map(thing => <thingList key={thing.id} thing={thing} />)}
+          {this.props.things.map(thing => <ThingItem thing={thing} />)}
         </ul>
-        <form onSubmit={this.thingSubmit}>
-          <input
-            name="thing"
-            type="text"
-            value={this.state.thing}
-            onChange={this.thingChange}
-          />
+        <form onSubmit={this.submitHandler}>
+          <input type="text" value={this.state.formThing} onChange={this.changeHandler} />
           <button>submit</button>
         </form>
       </>
@@ -50,4 +39,8 @@ class ThingList extends Component {
   }
 }
 
-export default ThingList
+function ThingItem(props) {
+  return <li>{props.thing.name}</li>
+}
+
+export default ThingForm

@@ -1,34 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import ThingList from './ThingList';
+import ThingForm from './ThingList';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Things: []
+      things: []
     }
     this.add = this.add.bind(this)
   }
 
-  add(event) {
-    event.preventDefault()
+  add(thing) {
+    // event.preventDefault()
+    this.setState({
+      things: this.state.things.concat(thing)
+    })
+  }
 
-    let list = this.state.Things
-    list.push(event.target.thing.value)
+  delete(thingToDelete) {
+    const newThings = this.state.things.filter(thing => thing.value !== thingToDelete.value);
 
     this.setState({
-      Things: list
+      things: newThings
     })
   }
 
   render() {
     return (
       <div className="App">
-        <Header size={this.state.Things.length} />
-        <ThingList values={this.state.IdemList} action={this.addItem} />
-        <Footer />
+        <Header thing-count={this.state.things.length}/>
+        <ThingForm things={this.state.things} onCreated={this.add} onDelete={this.delete}/>
+        <Footer bye='Bye' />
       </div>
     );
   }
